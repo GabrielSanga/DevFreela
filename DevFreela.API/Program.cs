@@ -1,12 +1,17 @@
 using DevFreela.API.Modes;
+using DevFreela.API.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
+// Padrão Options com DI
 builder.Services.Configure<FreelanceTotalCostConfig>(
     builder.Configuration.GetSection("FreelanceTotalCostConfig")
 );
+
+//Injeção de Dependencia
+builder.Services.AddScoped<IConfigService, ConfigService>();
 
 builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
