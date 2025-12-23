@@ -1,3 +1,4 @@
+using DevFreela.API.ExceptionHandler;
 using DevFreela.API.Modes;
 using DevFreela.API.Services;
 
@@ -13,6 +14,9 @@ builder.Services.Configure<FreelanceTotalCostConfig>(
 //Injeção de Dependencia
 builder.Services.AddScoped<IConfigService, ConfigService>();
 
+builder.Services.AddExceptionHandler<ApiExceptionHandler>();
+builder.Services.AddProblemDetails();
+
 builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
@@ -24,6 +28,8 @@ if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
 }
+
+app.UseExceptionHandler();
 
 app.UseHttpsRedirection();
 
