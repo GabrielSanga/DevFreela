@@ -1,4 +1,4 @@
-﻿namespace DevFreela.API.Modes
+﻿namespace DevFreela.API.Models
 {
     public class CreateProjectInputModel
     { 
