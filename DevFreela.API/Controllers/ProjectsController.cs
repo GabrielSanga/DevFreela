@@ -1,4 +1,5 @@
 ﻿using DevFreela.API.Models;
+using DevFreela.API.Persistence;
 using DevFreela.API.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
@@ -10,7 +11,11 @@ namespace DevFreela.API.Controllers
     [Route("api/projects")]
     public class ProjectsController : ControllerBase
     {
-        public ProjectsController() {}
+        private readonly DevFreelaDbContext _dbContext;
+
+        public ProjectsController(DevFreelaDbContext dbContext) {
+            _dbContext = dbContext;
+        }
 
         [HttpGet]
         public IActionResult Get(string search = "")

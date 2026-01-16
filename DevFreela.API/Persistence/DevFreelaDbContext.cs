@@ -1,0 +1,59 @@
+﻿using DevFreela.API.Entities;
+using Microsoft.EntityFrameworkCore;
+
+namespace DevFreela.API.Persistence
+{
+    public class DevFreelaDbContext : DbContext
+    {
+
+        public DevFreelaDbContext(DbContextOptions<DevFreelaDbContext> options) : base(options)
+        {
+        }
+
+        public DbSet<Skill> Skills { get; set; }
+        public DbSet<User> Users { get; set; }
+        public DbSet<UserSkill> UserSkills { get; set; }
+        public DbSet<Project> Projects { get;  set; }
+        public DbSet<ProjectComment> ProjectComments { get;  set; }
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            builder.Entity<Skill>(e => 
+            { 
+                e.HasKey(s => s.Id); 
+            });
+
+            builder.Entity<User>(e =>
+            {
+                e.HasKey(s => s.Id);
+            });
+
+            builder.Entity<UserSkill>(e =>
+            {
+                e.HasKey(s => s.Id);
+
+                e.HasOne(us => us.Skill).WithMany(s => s.UserSkills).HasForeignKey(us => us.IdSkill).OnDelete(DeleteBehavior.Restrict);
+                e.HasOne(us => us.User).WithMany(u => u.Skills).HasForeignKey(us => us.IdUser).OnDelete(DeleteBehavior.Restrict);
+            });
+
+            builder.Entity<Project>(e =>
+            {
+                e.HasKey(s => s.Id);
+
+                e.HasOne(p => p.Client).WithMany(c => c.OwnedProjects).HasForeignKey(p => p.IdClient).OnDelete(DeleteBehavior.Restrict);
+                e.HasOne(p => p.Freelancer).WithMany(f => f.FreelanceProjects).HasForeignKey(p => p.IdFreelancer).OnDelete(DeleteBehavior.Restrict);
+            });
+
+            builder.Entity<ProjectComment>(e =>
+            {
+                e.HasKey(s => s.Id);
+
+                e.HasOne(pc => pc.Project).WithMany(p => p.Comments).HasForeignKey(pc => pc.IdProject).OnDelete(DeleteBehavior.Restrict);
+                e.HasOne(pc => pc.User).WithMany(u => u.Comments).HasForeignKey(pc => pc.IdUser).OnDelete(DeleteBehavior.Restrict);
+            });
+
+            base.OnModelCreating(builder);
+        }
+
+    }
+}

@@ -43,7 +43,7 @@ namespace DevFreela.API.Entities
         {
             if (Status == ProjectStatusEnum.PaymentPending || Status == ProjectStatusEnum.InProgress)
             {
-                Status = ProjectStatusEnum.Canceled;
+                Status = ProjectStatusEnum.Completed;
                 CompletedAt = DateTime.Now; 
             }
         }
