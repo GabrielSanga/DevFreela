@@ -3,11 +3,13 @@
     public class ProjectComment : BaseEntity
     {
 
-        public ProjectComment(string content, int idProject, int idUSer) : base()
+        public ProjectComment() : base() {}
+
+        public ProjectComment(string content, int idProject, int idUser) : base()
         {
             Content = content;
             IdProject = idProject;
-            IdUser = idUSer;
+            IdUser = idUser;
         }
 
         public string Content { get; private set; }
