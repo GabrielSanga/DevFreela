@@ -1,4 +1,6 @@
-﻿namespace DevFreela.API.Models
+﻿using DevFreela.API.Entities;
+
+namespace DevFreela.API.Models
 {
     public class CreateProjectCommentInputModel
     {
@@ -9,6 +11,10 @@
 
         public int IdUser { get; set; }
 
+        public ProjectComment ToEntity()
+        {
+            return new(Content, IdProject, IdUser);
+        }
 
     }
 }

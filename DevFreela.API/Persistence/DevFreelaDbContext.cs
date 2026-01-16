@@ -26,7 +26,7 @@ namespace DevFreela.API.Persistence
             builder.Entity<User>(e =>
             {
                 e.HasKey(s => s.Id);
-            });
+            }); 
 
             builder.Entity<UserSkill>(e =>
             {
