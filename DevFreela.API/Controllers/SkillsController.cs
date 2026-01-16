@@ -1,4 +1,5 @@
 ﻿using DevFreela.API.Models;
+using DevFreela.API.Persistence;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,17 +11,32 @@ namespace DevFreela.API.Controllers
     public class SkillsController : ControllerBase
     {
 
-        // GET api/skills
-        [HttpGet]
-        public IActionResult GetAll()
+        private readonly DevFreelaDbContext _dbContext;
+
+        public SkillsController(DevFreelaDbContext dbContent)
         {
-            return Ok();
+            _dbContext = dbContent;
         }
 
-        // POST api/skills
+        [HttpGet]
+        public IActionResult Get()
+        {
+            var skills = _dbContext.Skills.Where(s => !s.IsDeleted).ToList();
+
+            var model = skills.Select(s => SkillViewModel.FromEntity(s)).ToList();
+
+            return Ok(model);
+        }
+
+        [HttpPost]
         public IActionResult Post(CreateSkillInputModel model)
         {
-            return Ok();
+            var skill = model.ToEntity();
+
+            _dbContext.Skills.Add(skill);
+            _dbContext.SaveChanges();
+
+            return NoContent();
         }
 
     }
