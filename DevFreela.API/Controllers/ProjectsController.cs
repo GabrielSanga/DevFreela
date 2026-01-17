@@ -38,6 +38,7 @@ namespace DevFreela.API.Controllers
             var project = _dbContext.Projects
                     .Include(p => p.Client)
                     .Include(p => p.Freelancer)
+                    .Include(p => p.Comments)
                     .SingleOrDefault(p => p.Id == id);
 
             if (project == null)
@@ -45,7 +46,7 @@ namespace DevFreela.API.Controllers
                 return NotFound();  
             }
 
-            var model = ProjectItemViewModel.FromEntity(project);
+            var model = ProjectViewModel.FromEntity(project);
 
             return Ok(model);
         }
