@@ -1,4 +1,4 @@
-﻿using DevFreela.API.Entities;
+﻿using DevFreela.Core.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace DevFreela.API.Persistence
