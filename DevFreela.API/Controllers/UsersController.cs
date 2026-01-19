@@ -1,6 +1,6 @@
 ﻿using DevFreela.Core.Entities;
 using DevFreela.API.Models;
-using DevFreela.API.Persistence;
+using DevFreela.Infrastructure.Persistence;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
