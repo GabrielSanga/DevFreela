@@ -1,4 +1,4 @@
-﻿using DevFreela.API.Models;
+﻿using DevFreela.Application.Models;
 using DevFreela.Infrastructure.Persistence;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

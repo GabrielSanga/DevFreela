@@ -1,7 +1,6 @@
 using DevFreela.API.ExceptionHandler;
-using DevFreela.API.Models;
+using DevFreela.Application.Models;
 using DevFreela.Infrastructure.Persistence;
-using DevFreela.API.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,9 +11,6 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.Configure<FreelanceTotalCostConfig>(
     builder.Configuration.GetSection("FreelanceTotalCostConfig")
 );
-
-//Injeção de Dependencia
-builder.Services.AddScoped<IConfigService, ConfigService>();
 
 //builder.Services.AddDbContext<DevFreelaDbContext>(o => o.UseInMemoryDatabase("DevFreelaDb"));
 
