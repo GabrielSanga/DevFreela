@@ -1,3 +1,6 @@
 <Solution>
   <Project Path="DevFreela.API/DevFreela.API.csproj" />
+  <Project Path="DevFreela.Application/DevFreela.Application.csproj" Id="c5da21b0-c902-4efd-a232-9eab5d4a2b0e" />
+  <Project Path="DevFreela.Core/DevFreela.Core.csproj" Id="df22d0d1-647e-44ce-8b85-c8427073cee2" />
+  <Project Path="DevFreela.Infrastructure/DevFreela.Infrastructure.csproj" Id="24210189-5b37-4808-b5ab-f6caf6ad056d" />
 </Solution>
