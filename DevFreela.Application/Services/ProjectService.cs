@@ -1,9 +1,6 @@
 ﻿using DevFreela.Application.Models;
 using DevFreela.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace DevFreela.Application.Services
 {

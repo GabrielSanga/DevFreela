@@ -3,6 +3,7 @@ using DevFreela.Application.Models;
 using DevFreela.Infrastructure.Persistence;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using DevFreela.Application.Services;
 
 namespace DevFreela.API.Controllers
 {
@@ -13,68 +14,54 @@ namespace DevFreela.API.Controllers
     {
 
         private readonly DevFreelaDbContext _dbContext;
+        private readonly IUserService _userService;
 
-        public UsersController(DevFreelaDbContext dbContext)
+        public UsersController(DevFreelaDbContext dbContext, IUserService service)
         {
-            _dbContext = dbContext; 
+            _dbContext = dbContext;
+            _userService = service;
         }
 
         [HttpGet("{id}")]
         public IActionResult GetById(int id)
-        {
-            var user = _dbContext.Users
-                            .Include(u => u.Skills)
-                                .ThenInclude(s => s.Skill)
-                            .SingleOrDefault(u => u.Id == id);
+        {   
+            var result = _userService.GetById(id);
 
-            if (user is null)
+            if (!result.IsSuccess)
             {
-                return NotFound();
-            }
+                return BadRequest(result);
+            }   
 
-            var model = UserViewModel.FromEntity(user);
-
-             return Ok(model);
+            return Ok(result);
         }
 
         [HttpPost]
         public IActionResult Post(CreateUserInputModel model)
         {
-            var user = model.ToEntity();
+            var result = _userService.Insert(model);
 
-            _dbContext.Users.Add(user);
-            _dbContext.SaveChanges();
+            if (!result.IsSuccess)
+            {
+                return BadRequest(result);
+            }
 
-            return NoContent();
+            return Ok(result);
         }
 
         [HttpPost("{id}/skills")]
         public IActionResult Post(int id, UserSkillsInputModel model)
         {
-            var user = _dbContext.Users.SingleOrDefault(u => u.Id == id);
+            model.Id = id;  
 
-            if (user is null)
+            var result = _userService.InsertSkills(model);
+
+            if (!result.IsSuccess)
             {
-                return NotFound();
+                return BadRequest(result);
             }
-
-            var userSkills = model.SkillsIds.Select(s => new UserSkill(id, s)).ToList();
-
-            _dbContext.UserSkills.AddRange(userSkills);
-            _dbContext.SaveChanges();
 
             return NoContent();
         }
-
-        //[HttpPut("{id}/profile-picture")]
-        //[Consumes("multipart/form-data")]
-        //public IActionResult PutProfilePicture(int id, [FromForm] IFormFile file)
-        //{
-        //    var description = $"File: {file.FileName}, Size: {file.Length}";
-
-        //    return Ok(description);
-        //}
-
 
     }
 
