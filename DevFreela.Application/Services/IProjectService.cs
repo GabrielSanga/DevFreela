@@ -9,7 +9,7 @@ namespace DevFreela.Application.Services
     {
         ResultViewModel<List<ProjectItemViewModel>> GetAll(string queryString = "", int page = 0, int size = 3);
         ResultViewModel<ProjectViewModel> GetById(int id);
-        ResultViewModel<int> Insert(CreateProjectInputModel inputModel);
+        ResultViewModel<ProjectViewModel> Insert(CreateProjectInputModel inputModel);
         ResultViewModel Update(UpdateProjectInputModel inputModel);
         ResultViewModel Delete(int id); 
         ResultViewModel Start(int id);

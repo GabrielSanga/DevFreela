@@ -22,6 +22,11 @@ namespace DevFreela.API.Controllers
         {
             var result = _service.GetAll(search, page, size);
 
+            if (!result.IsSuccess)
+            {
+                return BadRequest(result);
+            };
+
             return Ok(result);
         }
 
@@ -48,7 +53,7 @@ namespace DevFreela.API.Controllers
                 return BadRequest(result);
             };
 
-            return CreatedAtAction(nameof(GetById), new { id = result.Data}, model);
+            return Ok(result);
         }
 
         [HttpPut("{id}")]

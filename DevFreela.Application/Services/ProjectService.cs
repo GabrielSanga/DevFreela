@@ -48,14 +48,14 @@ namespace DevFreela.Application.Services
             return ResultViewModel<ProjectViewModel>.Success(model);
         }
 
-        public ResultViewModel<int> Insert(CreateProjectInputModel inputModel)
+        public ResultViewModel<ProjectViewModel> Insert(CreateProjectInputModel inputModel)
         {
             var project = inputModel.ToEntity();
 
             _dbContext.Projects.Add(project);
             _dbContext.SaveChanges();
 
-            return ResultViewModel<int>.Success(project.Id);
+            return ResultViewModel<ProjectViewModel>.Success(ProjectViewModel.FromEntity(project));
         }
 
         public ResultViewModel Update(UpdateProjectInputModel inputModel)
