@@ -19,6 +19,7 @@ namespace DevFreela.Application
         {
             services.AddScoped<IProjectService, ProjectService>();
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<ISkillService, SkillService>();
 
             return services;
         }
