@@ -1,9 +1,14 @@
-﻿using DevFreela.Core.Entities;
+﻿using DevFreela.Application.Commands.InsertUser;
+using DevFreela.Application.Commands.InsertUserSkill;
 using DevFreela.Application.Models;
+using DevFreela.Application.Queries.GetUserByID;
+using DevFreela.Application.Services;
+using DevFreela.Core.Entities;
 using DevFreela.Infrastructure.Persistence;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using DevFreela.Application.Services;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace DevFreela.API.Controllers
 {
@@ -13,19 +18,17 @@ namespace DevFreela.API.Controllers
     public class UsersController : ControllerBase
     {
 
-        private readonly DevFreelaDbContext _dbContext;
-        private readonly IUserService _userService;
+        private readonly IMediator _mediator;
 
-        public UsersController(DevFreelaDbContext dbContext, IUserService service)
+        public UsersController(IMediator mediator)
         {
-            _dbContext = dbContext;
-            _userService = service;
+            _mediator = mediator;
         }
 
         [HttpGet("{id}")]
-        public IActionResult GetById(int id)
-        {   
-            var result = _userService.GetById(id);
+        public async Task<IActionResult> GetById(int id)
+        {
+            var result = await _mediator.Send(new GetUserByIdQuery(id));
 
             if (!result.IsSuccess)
             {
@@ -36,24 +39,24 @@ namespace DevFreela.API.Controllers
         }
 
         [HttpPost]
-        public IActionResult Post(CreateUserInputModel model)
+        public async Task<IActionResult> Post(InsertUserCommand command)
         {
-            var result = _userService.Insert(model);
+            var result = await _mediator.Send(command);
 
             if (!result.IsSuccess)
             {
                 return BadRequest(result);
             }
 
-            return Ok(result);
+            return CreatedAtAction(nameof(GetById), new { id = result.Data }, command);
         }
 
         [HttpPost("{id}/skills")]
-        public IActionResult Post(int id, UserSkillsInputModel model)
+        public async Task<IActionResult> Post(int id, InsertUserSkillCommand command)
         {
-            model.Id = id;  
+            command.Id = id;
 
-            var result = _userService.InsertSkills(model);
+            var result = await _mediator.Send(command);
 
             if (!result.IsSuccess)
             {
