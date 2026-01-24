@@ -70,7 +70,6 @@ namespace DevFreela.Application.Services
             _dbContext.SaveChanges();
 
             return ResultViewModel.Success();
-
         }
 
         public ResultViewModel Delete(int id)
