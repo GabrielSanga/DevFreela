@@ -7,7 +7,7 @@ using System.Text;
 
 namespace DevFreela.Application.Commands.InsertProject
 {
-    internal class InsertProjectCommand : IRequest<ResultViewModel<ProjectViewModel>>
+    public class InsertProjectCommand : IRequest<ResultViewModel<ProjectViewModel>>
     {
         public string Title { get; set; }
 
