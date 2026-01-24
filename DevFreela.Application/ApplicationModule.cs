@@ -1,5 +1,4 @@
 ﻿using DevFreela.Application.Commands.InsertProject;
-using DevFreela.Application.Services;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -19,10 +18,6 @@ namespace DevFreela.Application
 
         private static IServiceCollection AddServices(this IServiceCollection services)
         {
-            services.AddScoped<IProjectService, ProjectService>();
-            services.AddScoped<IUserService, UserService>();
-            services.AddScoped<ISkillService, SkillService>();
-
             return services;
         }
 
