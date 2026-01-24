@@ -8,6 +8,8 @@ using DevFreela.Application.Commands.DeleteProject;
 using DevFreela.Application.Commands.StartProject;
 using DevFreela.Application.Commands.CompleteProject;
 using DevFreela.Application.Commands.InsertComment;
+using DevFreela.Application.Services;
+using DevFreela.Application.Models;
 
 namespace DevFreela.API.Controllers
 {
@@ -17,9 +19,11 @@ namespace DevFreela.API.Controllers
     public class ProjectsController : ControllerBase
     {
         private readonly IMediator _mediator;
+        private readonly IProjectService _service;
 
-        public ProjectsController(IMediator mediator) {
+        public ProjectsController(IMediator mediator, IProjectService service) {
             _mediator = mediator;
+            _service = service;
         }
 
         [HttpGet]
@@ -52,13 +56,13 @@ namespace DevFreela.API.Controllers
         public async Task<IActionResult> Post(InsertProjectCommand command)
         {
             var result = await _mediator.Send(command);
-
+            
             if (!result.IsSuccess)
             {
                 return BadRequest(result);
             };
 
-            return Ok(result);
+            return CreatedAtAction(nameof(GetById), new { id = result.Data}, command);
         }
 
         [HttpPut("{id}")]
