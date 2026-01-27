@@ -25,12 +25,14 @@ namespace DevFreela.Infrastructure.Persistence.Repositories
             return await _dbContext.Projects.AnyAsync(p => p.Id == id);
         }
 
-        public async Task<List<Project>> GetAll()
+        public async Task<List<Project>> GetAll(string queryString, int page, int size)
         {
             var projects = await _dbContext.Projects
                         .Include(p => p.Client)
                         .Include(p => p.Freelancer)
-                        .Where(p => !p.IsDeleted)
+                        .Skip(page * size)
+                        .Take(size)
+                        .Where(p => !p.IsDeleted && (queryString == "" || p.Title.Contains(queryString) || p.Description.Contains(queryString)))
                         .ToListAsync();
 
             return projects;
