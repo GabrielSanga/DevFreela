@@ -6,7 +6,7 @@ namespace DevFreela.Core.Entities
     {
         public const string INVALID_STATE_MESSAGE = "Project is in invalid state.";
 
-        protected Project() {}
+        protected Project() { }
 
         public Project(string title, string description, int idClient, int idFreelancer, decimal totalCost) : base()
         {
@@ -45,19 +45,24 @@ namespace DevFreela.Core.Entities
 
         public void Complete()
         {
-            if (Status == ProjectStatusEnum.PaymentPending || Status == ProjectStatusEnum.InProgress)
+            if (Status != ProjectStatusEnum.PaymentPending && Status != ProjectStatusEnum.InProgress)
             {
-                Status = ProjectStatusEnum.Completed;
-                CompletedAt = DateTime.Now; 
+                throw new InvalidOperationException(INVALID_STATE_MESSAGE);
             }
+
+            Status = ProjectStatusEnum.Completed;
+            CompletedAt = DateTime.Now;
         }
 
         public void SetPaymentPending()
         {
-            if (Status == ProjectStatusEnum.InProgress)
+            if (Status != ProjectStatusEnum.InProgress)
             {
-                Status = ProjectStatusEnum.PaymentPending;
+                throw new InvalidOperationException(INVALID_STATE_MESSAGE);
             }
+
+            Status = ProjectStatusEnum.PaymentPending;
+
         }
 
         public void Update(string title, string description, decimal totalCost)
@@ -69,10 +74,12 @@ namespace DevFreela.Core.Entities
 
         public void Cancel()
         {
-            if (Status == ProjectStatusEnum.InProgress || Status == ProjectStatusEnum.Suspended)
+            if (Status != ProjectStatusEnum.InProgress && Status != ProjectStatusEnum.Suspended)
             {
-                Status = ProjectStatusEnum.Canceled;
+                throw new InvalidOperationException(INVALID_STATE_MESSAGE);
             }
+
+            Status = ProjectStatusEnum.Canceled;
         }
 
     }
