@@ -19,12 +19,12 @@ namespace DevFreela.Application.Commands.InsertProject
         {
             var project = request.ToEntity();
 
-            await _repository.Insert(project);
+            var id = await _repository.Insert(project);
 
-            var notification = new ProjectCreatedNotification(project.Id, project.Title, project.TotalCost);
+            var notification = new ProjectCreatedNotification(id, project.Title, project.TotalCost);
             await _mediator.Publish(notification);
 
-            return ResultViewModel<int>.Success(project.Id);
+            return ResultViewModel<int>.Success(id);
         }
     }
 }
