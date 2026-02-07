@@ -1,6 +1,7 @@
 ﻿using DevFreela.Core.Enums;
 using DevFreela.Core.Entities;
 using Newtonsoft.Json.Bson;
+using FluentAssertions;
 
 namespace DevFreela.UnitTests.Core
 {
@@ -120,8 +121,11 @@ namespace DevFreela.UnitTests.Core
             // Arrange
             var project = new Project("Projeto A", "Projeto Freela", 1, 2, 10000);
             // Act & Assert
-            var exception = Assert.Throws<InvalidOperationException>(() => project.Cancel());
-            Assert.Equal(Project.INVALID_STATE_MESSAGE, exception.Message);
+            Action? action = project.Cancel;
+
+            action.Should()
+                .Throw<InvalidOperationException>()
+                .WithMessage(Project.INVALID_STATE_MESSAGE);
         }
     }
 }

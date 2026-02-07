@@ -1,6 +1,7 @@
 ﻿using DevFreela.Application.Commands.DeleteProject;
 using DevFreela.Core.Entities;
 using DevFreela.Core.Repositories;
+using FluentAssertions;
 using Moq;
 using NSubstitute;
 
@@ -70,7 +71,7 @@ namespace DevFreela.UnitTests.Application
             var result = await handler.Handle(command, new CancellationToken());
 
             //Assert
-            Assert.True(result.IsSuccess);
+            result.IsSuccess.Should().BeTrue();
             mockRepository.Verify(mockRepository => mockRepository.GetById(1), Times.Once);
             mockRepository.Verify(mockRepository => mockRepository.Update(It.IsAny<Project>()), Times.Once);
         }
@@ -90,8 +91,8 @@ namespace DevFreela.UnitTests.Application
             var result = await handler.Handle(command, new CancellationToken());
 
             //Assert
-            Assert.False(result.IsSuccess);
-            Assert.Equal(DeleteProjectHandler.PROJECT_NOT_FOUND_MESSAGE, result.Message);
+            result.IsSuccess.Should().BeFalse();
+            result.Message.Should().Be(DeleteProjectHandler.PROJECT_NOT_FOUND_MESSAGE);
             mockRepository.Verify(mockRepository => mockRepository.GetById(It.IsAny<int>()), Times.Once);
             mockRepository.Verify(mockRepository => mockRepository.Update(It.IsAny<Project>()), Times.Never);
         }

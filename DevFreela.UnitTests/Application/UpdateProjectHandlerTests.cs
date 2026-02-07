@@ -3,6 +3,7 @@ using DevFreela.Application.Commands.InsertProject;
 using DevFreela.Application.Commands.UpdateProject;
 using DevFreela.Core.Entities;
 using DevFreela.Core.Repositories;
+using FluentAssertions;
 using MediatR;
 using Moq;
 using NSubstitute;
@@ -91,7 +92,7 @@ namespace DevFreela.UnitTests.Application
             var result = await handler.Handle(command, new CancellationToken());
 
             //Assert
-            Assert.True(result.IsSuccess);
+            result.IsSuccess.Should().BeTrue();
             repository.Verify(r => r.GetById(1), Times.Once);
             repository.Verify(r => r.Update(It.IsAny<Project>()), Times.Once);
         }
