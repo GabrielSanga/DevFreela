@@ -3,9 +3,6 @@ using DevFreela.Core.Entities;
 using DevFreela.Core.Repositories;
 using MediatR;
 using NSubstitute;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace DevFreela.UnitTests.Application
 {
