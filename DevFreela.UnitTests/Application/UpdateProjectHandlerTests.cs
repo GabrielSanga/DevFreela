@@ -4,6 +4,7 @@ using DevFreela.Application.Commands.UpdateProject;
 using DevFreela.Core.Entities;
 using DevFreela.Core.Repositories;
 using MediatR;
+using Moq;
 using NSubstitute;
 using System;
 using System.Collections.Generic;
@@ -64,5 +65,36 @@ namespace DevFreela.UnitTests.Application
             //Assert
             Assert.False(result.IsSuccess);
         }
+
+
+        [Fact]
+        public async Task UpdateDataAreOk_Update_Success_MOQ()
+        {
+            //Arrange
+            var project = new Project("Projeto A", "Descrição do projeto A", 1, 2, 1000);
+
+            var repository = new Mock<IProjectRepository>();
+            repository.Setup(r => r.GetById(1)).ReturnsAsync((Project?) project);
+            repository.Setup(r => r.Update(It.IsAny<Project>())).Returns(Task.CompletedTask);
+
+            var command = new UpdateProjectCommand
+            {
+                IdProject = 1,
+                Title = "Projeto B",
+                Description = "Descrição do Projeto B",
+                TotalCost = 2000
+            };
+
+            var handler = new UpdateProjectHandler(repository.Object);
+
+            //Act
+            var result = await handler.Handle(command, new CancellationToken());
+
+            //Assert
+            Assert.True(result.IsSuccess);
+            repository.Verify(r => r.GetById(1), Times.Once);
+            repository.Verify(r => r.Update(It.IsAny<Project>()), Times.Once);
+        }
+
     }
 }
