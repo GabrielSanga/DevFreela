@@ -1,6 +1,7 @@
 ﻿using DevFreela.Application.Commands.InsertProject;
 using DevFreela.Core.Entities;
 using DevFreela.Core.Repositories;
+using DevFreela.UnitTests.Fakes;
 using FluentAssertions;
 using MediatR;
 using Moq;
@@ -21,14 +22,7 @@ namespace DevFreela.UnitTests.Application
 
             var mediator = Substitute.For<IMediator>();
 
-            var command = new InsertProjectCommand
-            {
-                Title = "Projeto A",
-                Description = "Descrição do Projeto A",
-                IdCliente = 1,
-                IdFreelancer = 2,
-                TotalCost = 1000
-            };
+            var command = FakesDataHelper.CreateFakeInsertProjectCommand();
 
             var handler = new InsertProjectHandler(mediator, repository);
 
@@ -52,14 +46,7 @@ namespace DevFreela.UnitTests.Application
 
             var mockMediator = new Mock<IMediator>();
 
-            var command = new InsertProjectCommand
-            {
-                Title = "Projeto A",
-                Description = "Descrição do Projeto A",
-                IdCliente = 1,
-                IdFreelancer = 2,
-                TotalCost = 1000
-            };
+            var command = FakesDataHelper.CreateFakeInsertProjectCommand();
 
             var handler = new InsertProjectHandler(mockMediator.Object, mockRepository.Object);
 

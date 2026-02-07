@@ -2,6 +2,7 @@
 using DevFreela.Core.Entities;
 using Newtonsoft.Json.Bson;
 using FluentAssertions;
+using DevFreela.UnitTests.Fakes;
 
 namespace DevFreela.UnitTests.Core
 {
@@ -12,7 +13,7 @@ namespace DevFreela.UnitTests.Core
         public void ProjectIsCreated_Start_Success()
         {
             // Arrange
-            var project = new Project("Projeto A", "Projeto Freela", 1, 2, 10000);
+            var project = FakesDataHelper.CreateFakeProject();
             // Act
             project.Start();
             // Assert
@@ -24,7 +25,7 @@ namespace DevFreela.UnitTests.Core
         public void ProjectIsInvalidState_Start_ThrowException()
         {
             // Arrange
-            var project = new Project("Projeto A", "Projeto Freela", 1, 2, 10000);
+            var project = FakesDataHelper.CreateFakeProject();
             project.Start();
             // Act & Assert
             var exception = Assert.Throws<InvalidOperationException>(() => project.Start());
@@ -35,7 +36,7 @@ namespace DevFreela.UnitTests.Core
         public void ProjectIsInProgress_Complete_Success()
         {
             // Arrange
-            var project = new Project("Projeto A", "Projeto Freela", 1, 2, 10000);
+            var project = FakesDataHelper.CreateFakeProject();
             project.Start();
             // Act
             project.Complete();
@@ -48,7 +49,7 @@ namespace DevFreela.UnitTests.Core
         public void ProjectIsPaymentPending_Complete_Success()
         {
             //Arrange
-            var project = new Project("Projeto A", "Projeto Freela", 1, 2, 10000);
+            var project = FakesDataHelper.CreateFakeProject();
             project.Start();
             project.SetPaymentPending();
             //Act
@@ -62,7 +63,7 @@ namespace DevFreela.UnitTests.Core
         public void ProjectIsInvalidState_Complete_ThrowException()
         {
             // Arrange
-            var project = new Project("Projeto A", "Projeto Freela", 1, 2, 10000);
+            var project = FakesDataHelper.CreateFakeProject();
             // Act & Assert
             var exception = Assert.Throws<InvalidOperationException>(() => project.Complete());
             Assert.Equal(Project.INVALID_STATE_MESSAGE, exception.Message);
@@ -72,7 +73,7 @@ namespace DevFreela.UnitTests.Core
         public void ProjectIsInProgress_SetPaymentPending_Success()
         {
             //Arange
-            var project = new Project("Projeto A", "Projeto Freela", 1, 2, 10000);
+            var project = FakesDataHelper.CreateFakeProject();
             project.Start();
             //Act
             project.SetPaymentPending();
@@ -84,7 +85,7 @@ namespace DevFreela.UnitTests.Core
         public void ProjectIsInvalidState_SetPaymentPending_ThrowException()
         {
             // Arrange
-            var project = new Project("Projeto A", "Projeto Freela", 1, 2, 10000);
+            var project = FakesDataHelper.CreateFakeProject();
             // Act & Assert
             var exception = Assert.Throws<InvalidOperationException>(() => project.SetPaymentPending());
             Assert.Equal(Project.INVALID_STATE_MESSAGE, exception.Message);
@@ -94,7 +95,7 @@ namespace DevFreela.UnitTests.Core
         public void ProjectUpdated_Update_Success()
         {
             // Arrange
-            var project = new Project("Projeto A", "Projeto Freela", 1, 2, 10000);
+            var project = FakesDataHelper.CreateFakeProject();
             // Act
             project.Update("Projeto B", "Projeto Freela Atualizado", 15000);
             // Assert
@@ -107,7 +108,7 @@ namespace DevFreela.UnitTests.Core
         public void ProjectIsInProgress_Cancel_Success()
         {
             // Arrange
-            var project = new Project("Projeto A", "Projeto Freela", 1, 2, 10000);
+            var project = FakesDataHelper.CreateFakeProject();
             project.Start();
             // Act
             project.Cancel();
@@ -119,7 +120,7 @@ namespace DevFreela.UnitTests.Core
         public void ProjectIsInvalidState_Cancel_ThrowException()
         {
             // Arrange
-            var project = new Project("Projeto A", "Projeto Freela", 1, 2, 10000);
+            var project = FakesDataHelper.CreateFakeProject();
             // Act & Assert
             Action? action = project.Cancel;
 
