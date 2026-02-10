@@ -14,9 +14,13 @@ namespace DevFreela.Application.Commands.InsertUser
         public string Email { get; set; }
         public DateTime BirthDate { get; set; }
 
+        public string password { get; set; }
+
+        public string role { get; set; }
+
         public User ToEntity()
         {
-            return new(FullName, Email, BirthDate);
+            return new(FullName, Email, BirthDate, password, role);
         }
     }
 }
