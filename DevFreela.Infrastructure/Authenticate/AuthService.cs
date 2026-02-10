@@ -26,7 +26,7 @@ namespace DevFreela.Infrastructure.Authenticate
 
                 var builder = new StringBuilder();
 
-                for (var i = 0; i < hashBytes.Length, i++)
+                for (var i = 0; i < hashBytes.Length; i++)
                 {
                     builder.Append(hashBytes[i].ToString("x2"));
                 }
