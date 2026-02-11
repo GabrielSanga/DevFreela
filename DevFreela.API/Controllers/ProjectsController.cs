@@ -25,6 +25,7 @@ namespace DevFreela.API.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "freelancer, client")]
         public async Task<IActionResult> Get(string search = "", int page = 0, int size = 3)
         {
             var result = await _mediator.Send(new GetAllProjectQuery(search, page, size));
@@ -38,6 +39,7 @@ namespace DevFreela.API.Controllers
         }
 
         [HttpGet("{id}")]
+        [Authorize(Roles = "freelancer, client")]
         public async Task<IActionResult> GetById(int id)
         {
             var result = await _mediator.Send(new GetProjectByIdQuery(id));
@@ -51,6 +53,7 @@ namespace DevFreela.API.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "client")]
         public async Task<IActionResult> Post(InsertProjectCommand command)
         {
             var result = await _mediator.Send(command);
@@ -64,6 +67,7 @@ namespace DevFreela.API.Controllers
         }
 
         [HttpPut("{id}")]
+        [Authorize(Roles = "client")]
         public async Task<IActionResult> Put(int id, UpdateProjectCommand command) {
             command.IdProject = id;
 
@@ -78,6 +82,7 @@ namespace DevFreela.API.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Roles = "client")]
         public async Task<IActionResult> Delete(int id)
         {
             var result = await _mediator.Send(new DeleteProjectCommand(id));
@@ -91,6 +96,7 @@ namespace DevFreela.API.Controllers
         }
 
         [HttpPut("{id}/start")]
+        [Authorize(Roles = "client")]
         public async Task<IActionResult> Start(int id)
         {
             var result = await _mediator.Send(new StartProjectCommand(id));
@@ -104,6 +110,7 @@ namespace DevFreela.API.Controllers
         }
 
         [HttpPut("{id}/complete")]
+        [Authorize(Roles = "client")]
         public async Task<IActionResult> Complete(int id)
         {
             var result = await _mediator.Send(new CompleteProjectCommand(id));
@@ -117,6 +124,7 @@ namespace DevFreela.API.Controllers
         }
 
         [HttpPost("{id}/comments")]
+        [Authorize(Roles = "freelancer, client")]
         public async Task<IActionResult> PostComment(int id, InsertCommentCommand command)
         {
             command.IdProject = id;
