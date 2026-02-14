@@ -17,6 +17,13 @@ namespace DevFreela.Infrastructure.Persistence.Repositories
             _dbContext = dbContext;
         }
 
+        public async Task<User?> GetByEmail(string email)
+        {
+            var user = await _dbContext.Users.SingleOrDefaultAsync(u => u.Email == email);
+
+            return user;
+        }
+
         public async Task<User?> GetByEmailAndPassword(string email, string password)
         {
             var user = await _dbContext.Users.SingleOrDefaultAsync(u => u.Email == email && u.Password == password);
@@ -45,6 +52,12 @@ namespace DevFreela.Infrastructure.Persistence.Repositories
         public async Task InsertSkill(List<UserSkill> userSkills)
         {
             await _dbContext.UserSkills.AddRangeAsync(userSkills);
+            await _dbContext.SaveChangesAsync();
+        }
+
+        public async Task Update(User user)
+        {
+            _dbContext.Users.Update(user);
             await _dbContext.SaveChangesAsync();
         }
     }

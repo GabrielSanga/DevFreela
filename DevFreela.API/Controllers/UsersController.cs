@@ -1,11 +1,13 @@
 ﻿using DevFreela.Application.Commands.InsertUser;
 using DevFreela.Application.Commands.InsertUserSkill;
 using DevFreela.Application.Commands.LoginUser;
+using DevFreela.Application.Commands.RecoveryPasswordUser;
 using DevFreela.Application.Queries.GetUserByID;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace DevFreela.API.Controllers
 {
@@ -31,7 +33,7 @@ namespace DevFreela.API.Controllers
             if (!result.IsSuccess)
             {
                 return BadRequest(result);
-            }   
+            }
 
             return Ok(result);
         }
@@ -68,6 +70,48 @@ namespace DevFreela.API.Controllers
         [HttpPost("login")]
         [AllowAnonymous]
         public async Task<ActionResult> Login(LoginUserCommand command)
+        {
+            var result = await _mediator.Send(command);
+
+            if (!result.IsSuccess)
+            {
+                return BadRequest(result);
+            }
+
+            return Ok(result);
+        }
+
+        [HttpPost("password-recovery/request")]
+        [AllowAnonymous]
+        public async Task<IActionResult> RequestPasswordRecovery(RequestPasswordRecoveryCommand command)
+        {
+            var result = await _mediator.Send(command);
+
+            if (!result.IsSuccess)
+            {
+                return BadRequest(result);
+            }
+
+            return Ok(result);
+        }
+
+        [HttpPost("password-recovery/validate")]
+        [AllowAnonymous]
+        public async Task<IActionResult> ValidateRecoveryCode(ValidateRecoveryCodeCommand command)
+        {
+            var result = await _mediator.Send(command);
+
+            if (!result.IsSuccess)
+            {
+                return BadRequest(result);
+            }
+
+            return Ok(result);
+        }
+
+        [HttpPost("password-recovery/change")]
+        [AllowAnonymous]
+        public async Task<IActionResult> ChangePassword(ChangePasswordCommand command)
         {
             var result = await _mediator.Send(command);
 
